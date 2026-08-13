@@ -2119,6 +2119,7 @@ DisplayVerifiedBootScreen (BootInfo *Info)
     if (FfbmStr[0] != '\0' && !TargetBuildVariantUser ()) {
       DEBUG ((EFI_D_VERBOSE, "Device will boot into FFBM mode\n"));
     } else {
+#ifndef SKIP_ORANGE_WAIT
       Status = DisplayVerifiedBootMenu (DISPLAY_MENU_ORANGE);
       if (Status == EFI_SUCCESS) {
         WaitForExitKeysDetection ();
@@ -2126,6 +2127,9 @@ DisplayVerifiedBootScreen (BootInfo *Info)
         DEBUG (
             (EFI_D_INFO, "Device is unlocked, Skipping boot verification\n"));
       }
+#else
+      DEBUG ((EFI_D_INFO, "SKIP_ORANGE_WAIT set, skipping orange wait\n"));
+#endif
     }
     break;
   default:
